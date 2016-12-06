@@ -1,4 +1,4 @@
-package com.rhc.pmo.toolkit;
+package org.rocket.chat;
 
 import org.apache.camel.spring.boot.FatJarRouter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
