@@ -1,3 +1,3 @@
-hello/Greeting.class
-hello/Application.class
-hello/GreetingController.class
+com/rhc/pmo/api/GreetingController.class
+com/rhc/pmo/api/Greeting.class
+com/rhc/pmo/api/Application.class
