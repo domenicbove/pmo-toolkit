@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -17,19 +18,35 @@
 
   <packaging>jar</packaging>
 
+  <dependencies>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.baloise</groupId>
+      <artifactId>rocket-chat-rest-client</artifactId>
+      <version>master-SNAPSHOT</version>
+    </dependency>
+
+  </dependencies>
+
   <repositories>
     <repository>
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
     </repository>
   </repositories>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.github.baloise</groupId>
-      <artifactId>rocket-chat-rest-client</artifactId>
-      <version>master-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
 
 </project>
