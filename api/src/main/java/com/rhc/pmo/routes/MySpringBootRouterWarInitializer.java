@@ -1,4 +1,4 @@
-package org.api;
+package com.rhc.pmo.routes;
 
 import org.apache.camel.spring.boot.FatJarRouter;
 import org.apache.camel.spring.boot.FatWarInitializer;
