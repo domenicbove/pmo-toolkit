@@ -20,7 +20,8 @@
 	<modules>
 		<module>rocket-chat</module>
 		<module>api</module>
-  </modules>
+		<module>google-drive</module>
+	</modules>
 
 	<dependencyManagement>
 		<dependencies>
