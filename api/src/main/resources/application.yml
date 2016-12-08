@@ -1,2 +1,2 @@
 
-spring.main.sources: org.api.MySpringBootRouter
+spring.main.sources: com.rhc.pmo.routes.MySpringBootRouter
