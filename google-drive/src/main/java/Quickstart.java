@@ -45,7 +45,7 @@ public class Quickstart {
      * at ~/.credentials/drive-java-quickstart
      */
     private static final List<String> SCOPES =
-        Arrays.asList(DriveScopes.DRIVE_METADATA_READONLY);
+        Arrays.asList(DriveScopes.DRIVE_FILE);
 
     static {
         try {
@@ -95,25 +95,43 @@ public class Quickstart {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }
+    
+    /** Initialize a folder in Google Drive and add the necessary permissions.
+     * @param The authorized drive client service.
+     * @param The desired name of the folder to be created as a String.
+     * @throws IOException
+     */
+    private static void initializeFolder(Drive service, String folderName) throws IOException {
+    	/*File fileMetadata = new File();
+        fileMetadata.setName("TestPMOProject");
+        fileMetadata.setMimeType("application/vnd.google-apps.folder");
 
+        
+        File file = service.files().create(fileMetadata).setFields("id").execute();
+      
+        Permission perm1 = createPermission("deirdre.anderson813@gmail.com");
+        service.permissions().create(file.getId(),perm1).execute();*/
+    }
+    
+    
+    /**Create and return a Permissions object
+     * @param String of the email to be added as a user
+     */
+    private static Permission createPermission(String email) {
+    	
+        Permission newPermission1 = new Permission();
+	        newPermission1.setEmailAddress(email);
+	        newPermission1.setType("user");
+	        newPermission1.setRole("writer");
+	       	
+	   return newPermission1;
+    }
     public static void main(String[] args) throws IOException {
         // Build a new authorized API client service.
         Drive service = getDriveService();
+        
+        initializeFolder(service,"PMOTest");
 
-        // Print the names and IDs for up to 10 files.
-        FileList result = service.files().list()
-             .setPageSize(10)
-             .setFields("nextPageToken, files(id, name)")
-             .execute();
-        List<File> files = result.getFiles();
-        if (files == null || files.size() == 0) {
-            System.out.println("No files found.");
-        } else {
-            System.out.println("Files:");
-            for (File file : files) {
-                System.out.printf("%s (%s)\n", file.getName(), file.getId());
-            }
-        }
     }
 
 }
