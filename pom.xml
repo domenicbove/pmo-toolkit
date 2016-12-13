@@ -13,7 +13,7 @@
   <name>RHC::PMO::TOOLKIT</name>
 
   <modules>
-    <module>rocket-chat</module>
+    <!-- <module>rocket-chat</module> -->
     <module>api</module>
     <module>google-drive</module>
   </modules>
