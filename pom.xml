@@ -13,9 +13,9 @@
   <name>RHC::PMO::TOOLKIT</name>
 
   <modules>
+    <module>rocket-chat</module>
     <module>api</module>
-    <!-- Commenting out RC because pom issues breaking build -->
-    <!-- <module>rocket-chat</module> -->
+    <module>google-drive</module>
   </modules>
 
   <properties>
