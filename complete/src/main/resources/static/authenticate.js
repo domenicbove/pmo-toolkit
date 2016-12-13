@@ -24,13 +24,28 @@ function handleAuthResult(authResult) {
 	var authorizeDiv = document.getElementById('authorize-div');
 	if (authResult && !authResult.error) {
 		// Hide auth UI, then load client library.
-		//authorizeDiv.style.display = 'none';
-		//loadDriveApi();
-		
-		//send token to backend
+		authorizeDiv.style.display = 'none';
+
+		// send token to backend
 		console.log(gapi.auth.getToken());
-		//reroute to home page
-		window.location.replace('newindex.html');
+		// reroute to home page
+		// window.location.replace('newindex.html');
+		console.log('logged in');
+		var http = new XMLHttpRequest();
+		var url = "/logins";
+		http.open("POST", url, true);
+
+		//Send the proper header information along with the request
+		//http.setRequestHeader("Content-type", "text");
+
+		http.onreadystatechange = function() {//Call a function when the state changes.
+			if (http.readyState == 4 && http.status == 200) {
+				alert(http.responseText);
+			}
+		}
+		http.send('' + gapi.auth.getToken().access_token);
+
+		loadDriveApi();
 	} else {
 		// Show auth UI, allowing the user to initiate authorization by
 		// clicking authorize button.
@@ -49,7 +64,6 @@ function handleAuthClick(event) {
 		scope : SCOPES,
 		immediate : false
 	}, handleAuthResult);
-	console.log("handleAuthClick");
 	return false;
 }
 
@@ -57,9 +71,7 @@ function handleAuthClick(event) {
  * Load Drive API client library.
  */
 function loadDriveApi() {
-	gapi.client.load('drive', 'v2', listFiles);
-	console.log("load get token");
-	console.log(gapi.auth.getToken());
+	gapi.client.load('drive', 'v3', listFiles);
 }
 
 /**
@@ -67,16 +79,17 @@ function loadDriveApi() {
  */
 function listFiles() {
 	var request = gapi.client.drive.files.list({
-		'maxResults' : 10
+		'pageSize' : 10,
+		'fields' : "nextPageToken, files(id, name)"
 	});
 
 	request.execute(function(resp) {
 		appendPre('Files:');
-		var files = resp.items;
+		var files = resp.files;
 		if (files && files.length > 0) {
 			for (var i = 0; i < files.length; i++) {
 				var file = files[i];
-				appendPre(file.title + ' (' + file.id + ')');
+				appendPre(file.name + ' (' + file.id + ')');
 			}
 		} else {
 			appendPre('No files found.');

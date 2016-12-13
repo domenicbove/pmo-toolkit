@@ -24,8 +24,7 @@ public class GreetingController {
                             String.format(template, name));
     }
     
-    
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/logins", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody String accessToken, UriComponentsBuilder ucBuilder) {
         System.out.println("Creating User " + accessToken);
  
