@@ -6,6 +6,8 @@
   <groupId>com.rhc.pmo.toolkit</groupId>
   <artifactId>api</artifactId>
   
+  <name>RHC::PMO::TOOLKIT::API</name>
+  
   <parent>
     <groupId>com.rhc.pmo</groupId>
     <artifactId>toolkit</artifactId>

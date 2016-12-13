@@ -14,7 +14,8 @@
 
   <modules>
     <module>api</module>
-    <module>rocket-chat</module>
+    <!-- Commenting out RC because pom issues breaking build -->
+    <!-- <module>rocket-chat</module> -->
   </modules>
 
   <properties>
