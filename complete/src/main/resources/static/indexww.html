@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="en" ng-app="pmoToolkit">
+<head> 
+    <meta charset="utf-8">
+    <title>PMO Toolkit</title>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/tether/dist/js/tether.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    
+    
+    <script src="newapp.js"></script>
+    <script src="project-form/project-form.js"></script>
+    <script src="nav-bar/nav-bar.js"></script>
+
+    <script src="login/login.js"></script>
+    <!-- When the below gapi code loads, call the checkAuth fn within login.js -->
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+</head>
+<body>
+    <div ng-view></div>
+</body>
+</html>
