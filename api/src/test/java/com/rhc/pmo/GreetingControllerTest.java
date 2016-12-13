@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.rhc.pmo;
 
-package com.rhc.pmo.api;
-
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,28 +31,24 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ApplicationTest {
+public class GreetingControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void homePage() throws Exception {
-        // N.B. jsoup can be useful for asserting HTML content
-        mockMvc.perform(get("/index.html"))
-                .andExpect(content().string(containsString("Get your greeting")));
+    public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
+
+        this.mockMvc.perform(get("/greeting")).andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").value("Hello, World!"));
     }
 
     @Test
-    public void greeting() throws Exception {
-        mockMvc.perform(get("/greeting"))
-                .andExpect(content().string(containsString("Hello, World!")));
-    }
+    public void paramGreetingShouldReturnTailoredMessage() throws Exception {
 
-    @Test
-    public void greetingWithUser() throws Exception {
-        mockMvc.perform(get("/greeting").param("name", "Greg"))
-                .andExpect(content().string(containsString("Hello, Greg!")));
+        this.mockMvc.perform(get("/greeting").param("name", "Spring Community"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
     }
 
 }

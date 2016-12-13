@@ -1,4 +1,4 @@
-package hello;
+package com.rhc.pmo;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -24,21 +24,13 @@ public class GreetingController {
                             String.format(template, name));
     }
     
-    @RequestMapping(value = "/logins", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody String accessToken, UriComponentsBuilder ucBuilder) {
         System.out.println("Creating User " + accessToken);
- 
-//        if (userService.isUserExist(user)) {
-//            System.out.println("A User with name " + user.getName() + " already exist");
-//            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-//        }
-// 
-//        userService.saveUser(user);
         
         DriveService driveService = new DriveService(accessToken);
  
         HttpHeaders headers = new HttpHeaders();
-        //headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
     

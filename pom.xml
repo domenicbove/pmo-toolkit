@@ -15,7 +15,6 @@
   <modules>
     <module>api</module>
     <module>rocket-chat</module>
-    <module>spring-boot-sample-servlet</module>
   </modules>
 
   <properties>

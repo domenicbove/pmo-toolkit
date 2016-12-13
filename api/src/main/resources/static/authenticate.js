@@ -32,7 +32,7 @@ function handleAuthResult(authResult) {
 		// window.location.replace('newindex.html');
 		console.log('logged in');
 		var http = new XMLHttpRequest();
-		var url = "/logins";
+		var url = "/login";
 		http.open("POST", url, true);
 
 		//Send the proper header information along with the request
