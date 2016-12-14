@@ -1,3 +1,5 @@
+package com.rhc.pmo.toolkit.gdrive;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +33,7 @@ public class DriveService {
 			fileMetadata.setName(date + " " + clientName + " - " + projectName);
 			fileMetadata.setMimeType("application/vnd.google-apps.folder");
 			File folder = drive.files().create(fileMetadata).setFields("id").execute();
+			System.out.println("here");
 			return folder;
 		}
 	  

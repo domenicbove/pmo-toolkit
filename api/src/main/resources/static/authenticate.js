@@ -2,7 +2,7 @@
 // Developer Console, https://console.developers.google.com
 var CLIENT_ID = '302601344077-krpuptgms6i2540v6qaasqi570tci0pa.apps.googleusercontent.com';
 
-var SCOPES = [ 'https://www.googleapis.com/auth/drive.metadata.readonly' ];
+var SCOPES = [ 'https://www.googleapis.com/auth/drive' ];
 
 /**
  * Check if current user has authorized this application.
