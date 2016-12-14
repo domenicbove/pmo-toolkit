@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.rhc.pmo.toolkit.gdrive.DriveService;
+import com.rhc.pmo.toolkit.gdrive.Folder;
 
 @RestController
 public class GreetingController {
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
+    
+    AuthenticationService authService;
+    DriveService driveService;
 
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
@@ -30,20 +34,25 @@ public class GreetingController {
     public ResponseEntity<Void> createUser(@RequestBody String accessToken, UriComponentsBuilder ucBuilder) {
         System.out.println("Creating User " + accessToken);
         
-        AuthenticationService as = new AuthenticationService(accessToken);
-        DriveService ds = new DriveService(as.getCredential());
+        authService = new AuthenticationService(accessToken);
+        driveService = new DriveService(authService.getCredential());
         
-        try {
-          ds.createFolder("client1", "brms");
-          System.out.println("hope the folder was created");
-        } catch (IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
      
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
     
+    @RequestMapping(value = "/createfolder", method = RequestMethod.POST)
+    public ResponseEntity<String> createFolder(@RequestBody Folder newFolder) {
+        System.out.println("Creating folder " + newFolder.toString());
+      
+        try {
+          driveService.initiateProjectFolder(newFolder.getClientName(), newFolder.getProjectName(), newFolder.getEmails());
+        } catch (Exception ex) {
+           return new ResponseEntity<String>("You need to log in first", HttpStatus.UNAUTHORIZED);
+        }
+     
+        return new ResponseEntity<String>("Success", HttpStatus.CREATED);
+    }
 
     
 }
