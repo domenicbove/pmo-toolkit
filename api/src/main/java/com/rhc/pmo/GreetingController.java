@@ -27,7 +27,12 @@ public class GreetingController {
     public ResponseEntity<Void> createUser(@RequestBody String accessToken, UriComponentsBuilder ucBuilder) {
         System.out.println("Creating User " + accessToken);
         
-        DriveService driveService = new DriveService(accessToken);
+        AuthenticationService as = new AuthenticationService(accessToken);
+        //DriveService ds = new DriveService(as.getCredential());
+        
+        
+        
+        
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
     

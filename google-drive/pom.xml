@@ -7,9 +7,12 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+
 	<artifactId>google-drive</artifactId>
 	<packaging>jar</packaging>
 	<name>RHC::PMOTOOLKIT::GOOGLEDRIVE</name>
+	<groupid>com.rhc.pmo</groupid>
+	
 	<dependencies>
 
 		<dependency>
