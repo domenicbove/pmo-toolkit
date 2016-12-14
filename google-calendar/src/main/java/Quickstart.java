@@ -44,7 +44,7 @@ public class Quickstart {
      * at ~/.credentials/calendar-java-quickstart
      */
     private static final List<String> SCOPES =
-        Arrays.asList(CalendarScopes.CALENDAR_READONLY);
+        Arrays.asList(CalendarScopes.CALENDAR);
 
     static {
         try {
@@ -95,6 +95,8 @@ public class Quickstart {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }
+    
+    
 
     public static void main(String[] args) throws IOException {
         // Build a new authorized API client service.
@@ -124,6 +126,48 @@ public class Quickstart {
                 System.out.printf("%s (%s)\n", event.getSummary(), start);
             }
         }
+        
+        //Create a new event on fb 
+        Event event = new Event()
+        	.setSummary("Internal Kick Off Meeting")
+        	.setLocation("Bluejeans")
+        	.setDescription("Upcoming Citi Engagement");
+
+		DateTime startDateTime = new DateTime("2016-12-28T09:00:00-07:00");
+		EventDateTime start = new EventDateTime()
+		    .setDateTime(startDateTime)
+		    .setTimeZone("America/Los_Angeles");
+		event.setStart(start);
+		
+		DateTime endDateTime = new DateTime("2016-12-28T17:00:00-07:00");
+		EventDateTime end = new EventDateTime()
+		    .setDateTime(endDateTime)
+		    .setTimeZone("America/Los_Angeles");
+		event.setEnd(end);
+		
+		EventAttendee[] attendees = new EventAttendee[] {
+		    new EventAttendee().setEmail("lpage@example.com"),
+		    new EventAttendee().setEmail("sbrin@example.com"),
+		};
+		event.setAttendees(Arrays.asList(attendees));
+		
+		//custom make reminders 
+		EventReminder[] reminderOverrides = new EventReminder[] {
+		    new EventReminder().setMethod("email").setMinutes(24 * 60),
+		    new EventReminder().setMethod("popup").setMinutes(10),
+		};
+		
+		//override the default reminders to your custom reminders
+		Event.Reminders reminders = new Event.Reminders()
+		    .setUseDefault(false)
+		    .setOverrides(Arrays.asList(reminderOverrides));
+		event.setReminders(reminders);
+		
+		//create calendar and insert event
+		String calendarId = "primary";
+		event = service.events().insert(calendarId, event).execute();
+		System.out.printf("Event created: %s\n", event.getHtmlLink());
+
     }
 
 }
