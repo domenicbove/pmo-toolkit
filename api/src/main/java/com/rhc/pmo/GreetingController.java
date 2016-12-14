@@ -2,7 +2,6 @@ package com.rhc.pmo;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,9 +28,9 @@ public class GreetingController {
         System.out.println("Creating User " + accessToken);
         
         DriveService driveService = new DriveService(accessToken);
- 
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
+    
+
     
 }
