@@ -1,4 +1,4 @@
-package com.rhc.pmo.api;
+package com.rhc.pmo;
 
 public class Greeting {
 
