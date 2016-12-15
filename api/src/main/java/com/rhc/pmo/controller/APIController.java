@@ -28,10 +28,7 @@ public class APIController {
         
         authService = new AuthenticationService(accessToken);
         driveService = new DriveService(authService.getCredential());
-        calService = new CalService(authService.getCredential());
-        
-        calService.createEvent("My house!");
-        
+        calService = new CalService(authService.getCredential());        
      
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
