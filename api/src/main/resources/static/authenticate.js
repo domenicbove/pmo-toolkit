@@ -2,7 +2,7 @@
 // Developer Console, https://console.developers.google.com
 var CLIENT_ID = '302601344077-krpuptgms6i2540v6qaasqi570tci0pa.apps.googleusercontent.com';
 
-var SCOPES = [ 'https://www.googleapis.com/auth/drive' ];
+var SCOPES = [ 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar' ];
 
 /**
  * Check if current user has authorized this application.
