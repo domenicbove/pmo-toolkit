@@ -33,13 +33,13 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
     </dependency>
-    
+   <!--  
     <dependency>
       <groupId>com.github.baloise</groupId>
       <artifactId>rocket-chat-rest-client</artifactId>
       <version>0.1.2-SNAPSHOT</version>
     </dependency>
-
+ -->
   </dependencies>
 
   <repositories>
