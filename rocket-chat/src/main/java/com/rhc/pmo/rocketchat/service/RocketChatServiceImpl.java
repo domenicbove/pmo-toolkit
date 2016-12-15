@@ -6,16 +6,45 @@ import com.rhc.pmo.rocketchat.model.RCSTATUS;
 
 @Component
 public class RocketChatServiceImpl implements RocketChatService {
+	
+	@SuppressWarnings("unused")
+	private RocketChatServiceImpl(){}
+	
+	private String userId;
+	private String token;
+	
+	//use constructor, not setter dependancy injection for this class
+	public RocketChatServiceImpl(String token, String userId){
+		
+		this.userId = userId;
+		this.token = token;
+	}
 
 	public String getRCStatus() {
-		return "RC is currently: " + RCSTATUS.UNKNOWN;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public void createChatRoom(String chatRoomName) {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+	public void createPrivateGroup(String groupName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addUsersToGroup(String[] userNames, String groupName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addUsersToChannel(String[] userNames, String channelName) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }
