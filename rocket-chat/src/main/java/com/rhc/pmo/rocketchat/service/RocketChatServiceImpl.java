@@ -45,6 +45,21 @@ public class RocketChatServiceImpl implements RocketChatService {
 		
 	}
 
+	public String getChannelId(String channelName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getGroupId(String groupName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getUserId(String userName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }
