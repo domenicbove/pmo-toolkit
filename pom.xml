@@ -12,7 +12,6 @@
 
   <name>RHC::PMO::TOOLKIT</name>
 
-
 	<modules>
 		<!-- <module>rocket-chat</module> -->
 		<module>api</module>

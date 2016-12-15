@@ -12,7 +12,6 @@
 
   <groupId>com.rhc.pmo.toolkit</groupId>
   <artifactId>rocket-chat</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
 
   <name>RHC::PMO::TOOLKIT::ROCKET-CHAT</name>
 
@@ -34,13 +33,13 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
     </dependency>
-    
+   <!--  
     <dependency>
       <groupId>com.github.baloise</groupId>
       <artifactId>rocket-chat-rest-client</artifactId>
-      <version>master-SNAPSHOT</version>
+      <version>0.1.2-SNAPSHOT</version>
     </dependency>
-
+ -->
   </dependencies>
 
   <repositories>
