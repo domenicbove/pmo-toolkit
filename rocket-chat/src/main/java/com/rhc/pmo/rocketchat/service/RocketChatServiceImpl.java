@@ -25,13 +25,13 @@ public class RocketChatServiceImpl implements RocketChatService {
 		return null;
 	}
 
-	public void createChatRoom(String chatRoomName) {
-		// TODO Auto-generated method stub
+	public String createChatRoom(String chatRoomName) {
+		return null;// TODO Auto-generated method stub
 		
 	}
 
-	public void createPrivateGroup(String groupName) {
-		// TODO Auto-generated method stub
+	public String createPrivateGroup(String groupName) {
+		return null;// TODO Auto-generated method stub
 		
 	}
 
