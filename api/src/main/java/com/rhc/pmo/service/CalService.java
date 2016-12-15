@@ -32,13 +32,13 @@ public class CalService {
 		this.calendar = calendar;
 	}
 	
-	public void createEvent(String location/*, String description, DateTime startTime, DateTime endTime, List<String> emails*/) throws IOException {
+	public void createEvent(String location, String description, /*DateTime startTime, DateTime endTime,*/ List<String> emails) throws IOException {
 		
 		  //Create a new event on fb 
         Event event = new Event()
         	.setSummary("Internal Kick Off Meeting")
         	.setLocation(location)
-        	.setDescription("Blah");
+        	.setDescription(description);
 
 		DateTime startDateTime = new DateTime("2016-12-28T09:00:00-07:00");
 		EventDateTime start = new EventDateTime()
@@ -52,6 +52,7 @@ public class CalService {
 		    .setTimeZone("America/Los_Angeles");
 		event.setEnd(end);
 		
+		//need to read in the list 
 		EventAttendee[] attendees = new EventAttendee[] {
 		    new EventAttendee().setEmail("lpage@example.com"),
 		    new EventAttendee().setEmail("sbrin@example.com"),
