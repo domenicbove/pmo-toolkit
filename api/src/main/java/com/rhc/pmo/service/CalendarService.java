@@ -2,6 +2,7 @@ package com.rhc.pmo.service;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,11 +16,11 @@ import com.google.api.services.calendar.model.EventAttendee;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.EventReminder;
 
-public class CalService {
+public class CalendarService {
 
 	private Calendar calendar;
 	
-	public CalService(GoogleCredential credential) {
+	public CalendarService(GoogleCredential credential) {
 		setCalendar(new Calendar.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(), credential)
 				.setApplicationName("PMO Toolkit").build());
 	}
@@ -52,12 +53,13 @@ public class CalService {
 		    .setTimeZone("America/Los_Angeles");
 		event.setEnd(end);
 		
-		//need to read in the list 
-		EventAttendee[] attendees = new EventAttendee[] {
-		    new EventAttendee().setEmail("lpage@example.com"),
-		    new EventAttendee().setEmail("sbrin@example.com"),
-		};
-		event.setAttendees(Arrays.asList(attendees));
+
+		ArrayList<EventAttendee> attendees = new ArrayList<EventAttendee>();
+		for (String email : emails) {
+			attendees.add(new EventAttendee().setEmail(email));
+		}		
+		event.setAttendees(attendees);
+
 		
 		//custom make reminders 
 		EventReminder[] reminderOverrides = new EventReminder[] {

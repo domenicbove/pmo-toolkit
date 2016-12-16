@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.rhc.pmo.model.Event;
 import com.rhc.pmo.service.AuthenticationService;
-import com.rhc.pmo.service.CalService;
+import com.rhc.pmo.service.CalendarService;
 import com.rhc.pmo.toolkit.gdrive.DriveService;
 import com.rhc.pmo.toolkit.gdrive.Folder;
 
@@ -21,7 +21,7 @@ public class APIController {
     
     AuthenticationService authService;
     DriveService driveService;
-    CalService calService;
+    CalendarService calService;
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody String accessToken, UriComponentsBuilder ucBuilder) throws IOException {
@@ -29,7 +29,7 @@ public class APIController {
         
         authService = new AuthenticationService(accessToken);
         driveService = new DriveService(authService.getCredential());
-        calService = new CalService(authService.getCredential());        
+        calService = new CalendarService(authService.getCredential());        
      
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
