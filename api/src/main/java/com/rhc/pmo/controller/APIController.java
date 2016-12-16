@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.rhc.pmo.model.Event;
+import com.rhc.pmo.model.Folder;
 import com.rhc.pmo.service.AuthenticationService;
 import com.rhc.pmo.service.CalendarService;
-import com.rhc.pmo.toolkit.gdrive.DriveService;
-import com.rhc.pmo.toolkit.gdrive.Folder;
+import com.rhc.pmo.service.DriveService;
 
 @RestController
 public class APIController {
