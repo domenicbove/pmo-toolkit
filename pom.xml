@@ -11,13 +11,12 @@
   <packaging>pom</packaging>
 
   <name>RHC::PMO::TOOLKIT</name>
-
-  <modules>
-    <module>rocket-chat</module>
-    <module>api</module>
-    <module>google-drive</module>
-    <module>complete</module>
-  </modules>
+  
+	<modules>
+		<!-- <module>rocket-chat</module> -->
+		<module>api</module>
+		<module>google-drive</module>
+	</modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
