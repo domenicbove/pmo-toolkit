@@ -42,6 +42,7 @@ public class APIController {
 			driveService.initiateProjectFolder(newFolder.getClientName(), newFolder.getProjectName(),
 					newFolder.getEmails());
 		} catch (NullPointerException e) {
+			System.out.println(e.getMessage());
 			return new ResponseEntity<String>("You need to log in first, please go to localhost:8080 in your browser",
 					HttpStatus.UNAUTHORIZED);
 		} catch (IOException e) {
