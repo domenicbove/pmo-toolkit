@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.batch.BatchRequest;
@@ -22,6 +25,7 @@ import com.google.api.services.drive.model.Permission;
 
 public class DriveService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DriveService.class);
 	private Drive drive;
 
 	public DriveService(GoogleCredential credential) {
@@ -71,7 +75,7 @@ public class DriveService {
 		
 		ClassLoader classLoader = this.getClass().getClassLoader();
 		
-		System.out.println("this many temp files " + templateFileNames.size());
+		LOGGER.info("this many temp files: {}", templateFileNames.size());
 		for (String tempName: templateFileNames) {
 			java.io.File filePath = new java.io.File(classLoader.getResource("templateFiles/" + tempName).getFile());			
 			FileContent mediaContent = new FileContent("application/document", filePath);
@@ -101,13 +105,13 @@ public class DriveService {
 		                          HttpHeaders responseHeaders)
 		            throws IOException {
 		        // Handle error
-		        System.err.println(e.getMessage());
+		        LOGGER.error(e.getMessage());
 		    }
 
 		    public void onSuccess(Permission permission,
 		                          HttpHeaders responseHeaders)
 		            throws IOException {
-		        System.out.println("Permission ID: " + permission.getId());
+		        LOGGER.info("Permission ID: {}", permission.getId());
 		    }
 		};
 		BatchRequest batch = drive.batch();
