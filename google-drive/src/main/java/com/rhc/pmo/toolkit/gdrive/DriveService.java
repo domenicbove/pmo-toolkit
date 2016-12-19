@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -16,6 +19,7 @@ import com.google.api.services.drive.model.Permission;
 
 public class DriveService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DriveService.class);
 	private Drive drive;
 
 	public DriveService(GoogleCredential credential) {
@@ -50,7 +54,7 @@ public class DriveService {
 		fileMetadata.setName(date + " " + clientName + " - " + projectName);
 		fileMetadata.setMimeType("application/vnd.google-apps.folder");
 		File folder = drive.files().create(fileMetadata).setFields("id").execute();
-		System.out.println("here");
+		LOGGER.info("here");
 		return folder;
 	}
 
@@ -75,8 +79,7 @@ public class DriveService {
 		try {
 			drive.files().create(fileToInsert, mediaContent).execute();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("Exception adding template files: {}", e);
 		}
 
 	}
