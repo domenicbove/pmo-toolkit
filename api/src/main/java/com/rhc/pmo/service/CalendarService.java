@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -17,6 +20,8 @@ import com.google.api.services.calendar.model.EventReminder;
 
 public class CalendarService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(CalendarService.class);
+	
 	private Calendar calendar;
 	
 	public CalendarService(GoogleCredential credential) {
@@ -75,8 +80,7 @@ public class CalendarService {
 		//create calendar and insert event
 		String calendarId = "primary";
 		event = calendar.events().insert(calendarId, event).execute();
-		System.out.printf("Event created: %s\n", event.getHtmlLink());
-		
+		LOGGER.info("Event created: {}", event.getHtmlLink());
 	}
 
 }
