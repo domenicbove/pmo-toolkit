@@ -2,6 +2,8 @@ package com.rhc.pmo.controller;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import com.rhc.pmo.toolkit.gdrive.Folder;
 
 @RestController
 public class APIController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(APIController.class);
     
     AuthenticationService authService;
     DriveService driveService;
@@ -25,7 +28,7 @@ public class APIController {
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody String accessToken, UriComponentsBuilder ucBuilder) throws IOException {
-        System.out.println("Creating User " + accessToken);
+        LOGGER.info("Creating User {}", accessToken);
         
         authService = new AuthenticationService(accessToken);
         driveService = new DriveService(authService.getCredential());
@@ -36,7 +39,7 @@ public class APIController {
     
     @RequestMapping(value = "/createfolder", method = RequestMethod.POST)
     public ResponseEntity<String> createFolder(@RequestBody Folder newFolder) {
-        System.out.println("Creating folder " + newFolder.toString());
+        LOGGER.info("Creating folder {}", newFolder);
 
 		try {
 			driveService.initiateProjectFolder(newFolder.getClientName(), newFolder.getProjectName(),
@@ -53,7 +56,7 @@ public class APIController {
 
     @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
     public ResponseEntity<String> createEvent(@RequestBody Event newEvent) {
-    	System.out.println("Creating event " + newEvent.toString());
+    	LOGGER.info("Creating event {}", newEvent);
 
 		try {
 			calService.createEvent(newEvent.getLocation(), newEvent.getDescription(), newEvent.getEmails());
