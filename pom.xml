@@ -15,7 +15,6 @@
 	<modules>
 		<!-- <module>rocket-chat</module> -->
 		<module>api</module>
-		<module>google-drive</module>
 	</modules>
 
 
