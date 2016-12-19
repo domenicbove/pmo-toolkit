@@ -11,4 +11,4 @@ http://localhost:8080/
 
 Authenticate, and then the backend will be passed the Google Credentials
 
-Enpoints can be accessed through manual requests or http://localhost:8080/swagger-ui.html
+Endpoints can be accessed through manual requests or http://localhost:8080/swagger-ui.html
