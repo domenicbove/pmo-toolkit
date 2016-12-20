@@ -1,0 +1,11 @@
+FROM mvn3jdk8
+#FROM maven:3-jdk-8
+
+RUN mkdir -p /home/app
+WORKDIR /home/app
+
+ADD . /home/app
+
+#RUN chown -R maven:maven /home
+
+CMD mvn install && cd api && mvn spring-boot:run
