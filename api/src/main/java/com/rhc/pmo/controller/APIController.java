@@ -38,7 +38,7 @@ public class APIController {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
     
-    @RequestMapping(value = "/createfolder", method = RequestMethod.POST)
+    @RequestMapping(value = "/create-folder", method = RequestMethod.POST)
     public ResponseEntity<String> createFolder(@RequestBody Folder newFolder) {
         LOGGER.info("Creating folder {}", newFolder);
 
@@ -56,7 +56,7 @@ public class APIController {
         return new ResponseEntity<String>("Success", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
+    @RequestMapping(value = "/create-event", method = RequestMethod.POST)
     public ResponseEntity<String> createEvent(@RequestBody Event newEvent) {
     	LOGGER.info("Creating event {}", newEvent);
 
