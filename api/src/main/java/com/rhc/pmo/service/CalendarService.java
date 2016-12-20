@@ -2,8 +2,11 @@ package com.rhc.pmo.service;
 
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -38,7 +41,7 @@ public class CalendarService {
 		this.calendar = calendar;
 	}
 	
-	public void createEvent(String location, String description, /*DateTime startTime, DateTime endTime,*/ List<String> emails) throws IOException {
+	public void createEvent(String location, String description, String startDate, String endDate, List<String> emails) throws IOException, ParseException {
 		
 		  //Create a new event on fb 
         Event event = new Event()
@@ -46,13 +49,17 @@ public class CalendarService {
         	.setLocation(location)
         	.setDescription(description);
 
-		DateTime startDateTime = new DateTime("2016-12-28T09:00:00-07:00");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        
+        Date startdate = formatter.parse(startDate);
+		DateTime startDateTime = new DateTime(startdate);
 		EventDateTime start = new EventDateTime()
 		    .setDateTime(startDateTime)
 		    .setTimeZone("America/Los_Angeles");
 		event.setStart(start);
 		
-		DateTime endDateTime = new DateTime("2016-12-28T17:00:00-07:00");
+		Date enddate = formatter.parse(endDate);
+		DateTime endDateTime = new DateTime(enddate);
 		EventDateTime end = new EventDateTime()
 		    .setDateTime(endDateTime)
 		    .setTimeZone("America/Los_Angeles");

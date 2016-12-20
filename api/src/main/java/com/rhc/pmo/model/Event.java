@@ -7,17 +7,29 @@ public class Event {
 	private String location;
 	private String description;
 	private List<String> emails;
-	
+	private String startDate;
+	private String endDate;
+
 	public Event() {
 		
 	}
 	
-	public Event(String location, String description, List<String> emails) {
+	public Event(String location, String description, String startDate, String endDate, List<String> emails) {
 		super();
 		this.location = location;
 		this.description = description;
 		this.emails = emails;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
 	public String getLocation() {
 		return location;
 	}
@@ -35,6 +47,14 @@ public class Event {
 	}
 	public void setEmails(List<String> emails) {
 		this.emails = emails;
+	}
+	
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package com.rhc.pmo.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,12 +61,14 @@ public class APIController {
     	LOGGER.info("Creating event {}", newEvent);
 
 		try {
-			calService.createEvent(newEvent.getLocation(), newEvent.getDescription(), newEvent.getEmails());
+			calService.createEvent(newEvent.getLocation(), newEvent.getDescription(), newEvent.getStartDate(), newEvent.getEndDate(), newEvent.getEmails());
 		} catch (NullPointerException e) {
 			return new ResponseEntity<String>("You need to log in first, please go to localhost:8080 in your browser",
 					HttpStatus.UNAUTHORIZED);
 		} catch (IOException e) {
 			return new ResponseEntity<String>("Backend error", HttpStatus.CONFLICT);
+		} catch (ParseException e) {
+			return new ResponseEntity<String>("Parsing Error", HttpStatus.UNAUTHORIZED);
 		}
 
         return new ResponseEntity<String>("Success", HttpStatus.CREATED);
