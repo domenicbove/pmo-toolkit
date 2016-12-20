@@ -68,7 +68,7 @@ public class APIController {
 		} catch (IOException e) {
 			return new ResponseEntity<String>("Backend error", HttpStatus.CONFLICT);
 		} catch (ParseException e) {
-			return new ResponseEntity<String>("Parsing Error", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<String>("Please make sure to enter dates in YYYY-MM-DD HH:MM Format", HttpStatus.UNAUTHORIZED);
 		}
 
         return new ResponseEntity<String>("Success", HttpStatus.CREATED);
