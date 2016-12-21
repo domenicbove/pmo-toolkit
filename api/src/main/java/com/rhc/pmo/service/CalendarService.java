@@ -51,15 +51,13 @@ public class CalendarService {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         
-        Date startDateString = formatter.parse(startDate);
-		DateTime startDateTime = new DateTime(startDateString);
+		DateTime startDateTime = new DateTime(formatter.parse(startDate));
 		EventDateTime start = new EventDateTime()
 		    .setDateTime(startDateTime)
 		    .setTimeZone("America/Los_Angeles");
 		event.setStart(start);
 		
-		Date endDateString = formatter.parse(endDate);
-		DateTime endDateTime = new DateTime(endDateString);
+		DateTime endDateTime = new DateTime(formatter.parse(endDate));
 		EventDateTime end = new EventDateTime()
 		    .setDateTime(endDateTime)
 		    .setTimeZone("America/Los_Angeles");
