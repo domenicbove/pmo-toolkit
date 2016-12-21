@@ -1,6 +1,7 @@
 package com.rhc.pmo.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ public class APIController {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
     
-    @RequestMapping(value = "/createfolder", method = RequestMethod.POST)
+    @RequestMapping(value = "/folders", method = RequestMethod.POST)
     public ResponseEntity<String> createFolder(@RequestBody Folder newFolder) {
         LOGGER.info("Creating folder {}", newFolder);
 
@@ -55,17 +56,19 @@ public class APIController {
         return new ResponseEntity<String>("Success", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
+    @RequestMapping(value = "/events", method = RequestMethod.POST)
     public ResponseEntity<String> createEvent(@RequestBody Event newEvent) {
     	LOGGER.info("Creating event {}", newEvent);
 
 		try {
-			calService.createEvent(newEvent.getLocation(), newEvent.getDescription(), newEvent.getEmails());
+			calService.createEvent(newEvent.getLocation(), newEvent.getDescription(), newEvent.getStartDate(), newEvent.getEndDate(), newEvent.getEmails());
 		} catch (NullPointerException e) {
 			return new ResponseEntity<String>("You need to log in first, please go to localhost:8080 in your browser",
 					HttpStatus.UNAUTHORIZED);
 		} catch (IOException e) {
 			return new ResponseEntity<String>("Backend error", HttpStatus.CONFLICT);
+		} catch (ParseException e) {
+			return new ResponseEntity<String>("Please make sure to enter dates in YYYY-MM-DD HH:MM Format", HttpStatus.UNAUTHORIZED);
 		}
 
         return new ResponseEntity<String>("Success", HttpStatus.CREATED);
