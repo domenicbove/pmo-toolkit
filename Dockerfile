@@ -24,6 +24,8 @@ WORKDIR /home/app
 
 USER maven
 
+EXPOSE 8080
+
 VOLUME "$USER_HOME_DIR/.m2"
 
 ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
