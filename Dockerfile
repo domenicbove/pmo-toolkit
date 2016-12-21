@@ -17,12 +17,13 @@ COPY settings-docker.xml /usr/share/maven/ref/
 RUN mkdir -p /home/app && mkdir -p /home/.m2
 ADD . /home/app
 
-RUN groupadd -r maven && useradd -r -g maven maven
-RUN chown -R maven:maven /home
+#RUN groupadd -r maven && useradd -r -g maven maven
+#RUN chown -R maven:maven /home
+RUN chmod 757 -R /home/
 
 WORKDIR /home/app
 
-USER maven
+#USER maven
 
 EXPOSE 8080
 
