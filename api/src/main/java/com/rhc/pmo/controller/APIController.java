@@ -63,11 +63,14 @@ public class APIController {
 		try {
 			calService.createEvent(newEvent.getLocation(), newEvent.getDescription(), newEvent.getStartDate(), newEvent.getEndDate(), newEvent.getEmails());
 		} catch (NullPointerException e) {
+			LOGGER.info("NullPointerException logging in");
 			return new ResponseEntity<String>("You need to log in first, please go to localhost:8080 in your browser",
 					HttpStatus.UNAUTHORIZED);
 		} catch (IOException e) {
+			LOGGER.info("IOException");
 			return new ResponseEntity<String>("Backend error", HttpStatus.CONFLICT);
 		} catch (ParseException e) {
+			LOGGER.info("ParseException Formatting Dates");
 			return new ResponseEntity<String>("Please make sure to enter dates in YYYY-MM-DD HH:MM Format", HttpStatus.UNAUTHORIZED);
 		}
 
