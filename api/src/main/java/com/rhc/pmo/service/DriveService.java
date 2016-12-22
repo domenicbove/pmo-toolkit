@@ -25,14 +25,6 @@ import com.google.api.services.drive.model.Permission;
 public class DriveService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DriveService.class);
-	private static File topFolder;
-	private static File pmoFolder;
-	private static File documFolder;
-	private static File meetingsFolder;
-	private static String projectName;
-	private static String clientName;
-	private static List<String> emails;
-	private static List<String> templateFileNames = new ArrayList<String>();
 	private Drive drive;
 
 	public DriveService(GoogleCredential credential) {
@@ -50,43 +42,40 @@ public class DriveService {
 
 	public void initiateProjectFolder(String client, String project, List<String> users) throws IOException {
 
-		clientName = client;
-		projectName = project;
-		emails = users;
-
 		// Create the top level folder and the subfolders
-		topFolder = createFolder();
-		meetingsFolder = createSubFolder("Meetings");
-		pmoFolder = createSubFolder("PMO");
-		documFolder = createSubFolder("Documentation");
-		createSubFolder("Architecture");
+		File topFolder = createFolder(client, project);
+		File meetingsFolder = createSubFolder("Meetings", topFolder);
+		File pmoFolder = createSubFolder("PMO", topFolder);
+		File documFolder = createSubFolder("Documentation", topFolder);
+		createSubFolder("Architecture", topFolder);
 
+		List<String> templateFileNames = new ArrayList<String>();
 		// Upload template file(s) to top level directory
 		templateFileNames.add("Scope.docx");
 		templateFileNames.add("Logistics.xlsx");
 		templateFileNames.add("Project_Dashboard.xlsx");
 		templateFileNames.add("Project_Brief.docx");
-		addTemplateFiles(topFolder);
+		addTemplateFiles(client, project, topFolder, templateFileNames);
 		
 		//Upload file(s) to Documents Folder
 		templateFileNames.add("Engagement_Journal.docx");
-		addTemplateFiles(documFolder);
+		addTemplateFiles(client, project, documFolder, templateFileNames);
 
 		//Upload file(s) to Meetings Folder
 		templateFileNames.add("Project_Kickoff_Slides.pptx");
-		addTemplateFiles(meetingsFolder);
+		addTemplateFiles(client, project, meetingsFolder, templateFileNames);
 
 		//Upload file(s) to PMO Folder
 		templateFileNames.add("Weekly_Status_Report.docx");
 		templateFileNames.add("Project_Management_Plan.docx");
-		addTemplateFiles(pmoFolder);
+		addTemplateFiles(client, project, pmoFolder, templateFileNames);
 
 		// Add the user permissions to the folder
-		shareFolder();
+		shareFolder(users, topFolder);
 
 	}
 
-	private File createFolder() throws IOException {
+	private File createFolder(String clientName, String projectName) throws IOException {
 		File fileMetadata = new File();
 		String date = new SimpleDateFormat("yyyy-MM").format(new Date());
 		fileMetadata.setName(date + clientName + " - " + projectName);
@@ -94,15 +83,15 @@ public class DriveService {
 		return drive.files().create(fileMetadata).setFields("id").execute();
 	}
 
-	private File createSubFolder(String name) throws IOException {
+	private File createSubFolder(String name, File parentFolder) throws IOException {
 		File fileMetadata = new File();
 		fileMetadata.setName(name);
 		fileMetadata.setMimeType("application/vnd.google-apps.folder");
-		setParentFolder(fileMetadata, topFolder);
+		setParentFolder(fileMetadata, parentFolder);
 		return drive.files().create(fileMetadata).setFields("id").execute();
 	}
 
-	private void addTemplateFiles(File pFolder) {
+	private void addTemplateFiles(String clientName, String projectName, File pFolder, List<String> templateFileNames) {
 		ClassLoader classLoader = this.getClass().getClassLoader();
 		LOGGER.info("this many temp files: {}", templateFileNames.size());
 		
@@ -122,7 +111,7 @@ public class DriveService {
 		templateFileNames.clear();
 	}
 
-	private void shareFolder() throws IOException {
+	private void shareFolder(List<String> emails, File topFolder) throws IOException {
 		JsonBatchCallback<Permission> callback = new JsonBatchCallback<Permission>() {
 			@Override
 			public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) throws IOException {
@@ -177,7 +166,7 @@ public class DriveService {
 
 	private static void setParentFolder(File f, File parentFolder) {
 		ArrayList<String> parentFolders = new ArrayList<String>();
-		if (topFolder.getId() != null) {
+		if (parentFolder.getId() != null) {
 			parentFolders.add(parentFolder.getId());
 			f.setParents(parentFolders);
 		}
