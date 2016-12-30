@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,93 +40,99 @@ public class DriveService {
 		this.drive = drive;
 	}
 
-	public void initiateProjectFolder(String clientName, String projectName, List<String> emails) throws IOException {
+	public void initiateProjectFolder(String client, String project, List<String> users) throws IOException {
 
-		// Create the Folder with the Project Name and capture folder ID
-		File folder = createFolder(clientName, projectName);
-				
-		// Upload the templates files to the folder
-		addTemplateFiles(folder.getId(), clientName, projectName);
+		// Create the top level folder and the subfolders
+		File topFolder = createFolder(client, project);
+		File meetingsFolder = createSubFolder("Meetings", topFolder);
+		File pmoFolder = createSubFolder("PMO", topFolder);
+		File documFolder = createSubFolder("Documentation", topFolder);
+		createSubFolder("Architecture", topFolder);
 
-		//Add the user permissions to the folder
-		shareFile(folder, emails);
-
-	}
-
-	public File createFolder(String clientName, String projectName) throws IOException {
-		File fileMetadata = new File();
-		String date = new SimpleDateFormat("MM-yyyy").format(new Date());
-		fileMetadata.setName(date + " " + clientName + " - " + projectName);
-		fileMetadata.setMimeType("application/vnd.google-apps.folder");
-		File folder = drive.files().create(fileMetadata).setFields("id").execute();
-		return folder;
-	}
-
-	private void addTemplateFiles(String folderID, String clientName, String projectName) {
-		
 		List<String> templateFileNames = new ArrayList<String>();
-		templateFileNames.add("Engagement_Journal.docx");
+		// Upload template file(s) to top level directory
+		templateFileNames.add("Scope.docx");
+		templateFileNames.add("Logistics.xlsx");
 		templateFileNames.add("Project_Dashboard.xlsx");
-		templateFileNames.add("Project_Management_Plan.docx");	
-		templateFileNames.add("Project_Brief.docx");	
-		templateFileNames.add("Project_Kickoff_Slides.pptx");	
-		templateFileNames.add("Weekly_Status_Report.docx");	
+		templateFileNames.add("Project_Brief.docx");
+		addTemplateFiles(client, project, topFolder, templateFileNames);
 		
+		//Upload file(s) to Documents Folder
+		templateFileNames.add("Engagement_Journal.docx");
+		addTemplateFiles(client, project, documFolder, templateFileNames);
+
+		//Upload file(s) to Meetings Folder
+		templateFileNames.add("Project_Kickoff_Slides.pptx");
+		addTemplateFiles(client, project, meetingsFolder, templateFileNames);
+
+		//Upload file(s) to PMO Folder
+		templateFileNames.add("Weekly_Status_Report.docx");
+		templateFileNames.add("Project_Management_Plan.docx");
+		addTemplateFiles(client, project, pmoFolder, templateFileNames);
+
+		// Add the user permissions to the folder
+		shareFolder(users, topFolder);
+
+	}
+
+	private File createFolder(String clientName, String projectName) throws IOException {
+		File fileMetadata = new File();
+		String date = new SimpleDateFormat("yyyy-MM").format(new Date());
+		fileMetadata.setName(date + clientName + " - " + projectName);
+		fileMetadata.setMimeType("application/vnd.google-apps.folder");
+		return drive.files().create(fileMetadata).setFields("id").execute();
+	}
+
+	private File createSubFolder(String name, File parentFolder) throws IOException {
+		File fileMetadata = new File();
+		fileMetadata.setName(name);
+		fileMetadata.setMimeType("application/vnd.google-apps.folder");
+		setParentFolder(fileMetadata, parentFolder);
+		return drive.files().create(fileMetadata).setFields("id").execute();
+	}
+
+	private void addTemplateFiles(String clientName, String projectName, File pFolder, List<String> templateFileNames) {
 		ClassLoader classLoader = this.getClass().getClassLoader();
-		
 		LOGGER.info("this many temp files: {}", templateFileNames.size());
-		for (String tempName: templateFileNames) {
-			java.io.File filePath = new java.io.File(classLoader.getResource("templateFiles/" + tempName).getFile());			
+		
+		for (String tempName : templateFileNames) {
+			java.io.File filePath = new java.io.File(classLoader.getResource("templateFiles/" + tempName).getFile());
 			FileContent mediaContent = new FileContent("application/document", filePath);
 			File fileToInsert = new File();
 			fileToInsert.setName(clientName + "-" + projectName + ":" + filePath.getName());
-			setFileType(tempName, fileToInsert);
-				
-			// Set the parent folder.
-			ArrayList<String> parentFolders = new ArrayList<String>();
-			if (folderID != null) {
-				parentFolders.add(folderID);
-				fileToInsert.setParents(parentFolders);
-			}
+			setParentFolder(fileToInsert, pFolder);
+			setGoogleFileType(tempName, fileToInsert);
 			try {
 				drive.files().create(fileToInsert, mediaContent).execute();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-
+		templateFileNames.clear();
 	}
 
-	private void shareFile(File folder, List<String> emails) throws IOException {
+	private void shareFolder(List<String> emails, File topFolder) throws IOException {
 		JsonBatchCallback<Permission> callback = new JsonBatchCallback<Permission>() {
-		    @Override
-		    public void onFailure(GoogleJsonError e,
-		                          HttpHeaders responseHeaders)
-		            throws IOException {
-		        // Handle error
-		        LOGGER.error(e.getMessage());
-		    }
-
-		    public void onSuccess(Permission permission,
-		                          HttpHeaders responseHeaders)
-		            throws IOException {
-		        LOGGER.info("Permission ID: {}", permission.getId());
-		    }
+			@Override
+			public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) throws IOException {
+				// Handle error
+				LOGGER.error(e.getMessage());
+			}
+			public void onSuccess(Permission permission, HttpHeaders responseHeaders) throws IOException {
+				LOGGER.info("Permission ID: {}", permission.getId());
+			}
 		};
 		BatchRequest batch = drive.batch();
 		
-		for (String email:emails) {
+		for (String email : emails) {
 			Permission perm = createPermission(email);
-			drive.permissions().create(folder.getId(), perm)
-	        .setFields("id")
-	        .queue(batch, callback);
+			drive.permissions().create(topFolder.getId(), perm).setFields("id").queue(batch, callback);
 		}
 		batch.execute();
 
 	}
 	
-	private static void setFileType(String fileName, File file){
-
+	private static void setMSFileType(String fileName, File file) {
 		if ((FilenameUtils.getExtension(fileName)).equals("xlsx")) {
 			file.setMimeType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		} else if ((FilenameUtils.getExtension(fileName)).equals("docx")) {
@@ -137,16 +142,34 @@ public class DriveService {
 		} else {
 			file.setMimeType("application/file");
 		}
-		
 	}
-	private static Permission createPermission(String email) {
 
+	private static void setGoogleFileType(String fileName, File file) {
+		if ((FilenameUtils.getExtension(fileName)).equals("xlsx")) {
+			file.setMimeType("application/vnd.google-apps.spreadsheet");
+		} else if ((FilenameUtils.getExtension(fileName)).equals("docx")) {
+			file.setMimeType("application/vnd.google-apps.document");
+		} else if ((FilenameUtils.getExtension(fileName)).equals("pptx")) {
+			file.setMimeType("application/vnd.google-apps.presentation");
+		} else {
+			file.setMimeType("application/file");
+		}
+	}
+
+	private static Permission createPermission(String email) {
 		Permission newPermission1 = new Permission();
 		newPermission1.setEmailAddress(email);
 		newPermission1.setType("user");
 		newPermission1.setRole("writer");
-
 		return newPermission1;
+	}
+
+	private static void setParentFolder(File f, File parentFolder) {
+		ArrayList<String> parentFolders = new ArrayList<String>();
+		if (parentFolder.getId() != null) {
+			parentFolders.add(parentFolder.getId());
+			f.setParents(parentFolders);
+		}
 	}
 
 }
