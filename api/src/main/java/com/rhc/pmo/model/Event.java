@@ -60,6 +60,6 @@ public class Event {
 	@Override
 	public String toString() {
 		return "Event [location=" + location + ", description=" + description
-				+ ", emails=" + emails + " ,start date =" + startDate + ", end date = " + endDate + "]";
+				+ ", emails=" + emails + ", start date=" + startDate + ", end date=" + endDate + "]";
 	}
 }
