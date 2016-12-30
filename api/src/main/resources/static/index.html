@@ -3,14 +3,58 @@
     <script src="authenticate.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=checkAuth">
     </script>
+    <style>
+    body {
+		background: #820000;	
+		text-align: center;
+		font-color:white;
+		font-family: "Arial Black";
+	}
+	.wrapper {
+		position: absolute;
+		top:35%;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+    }
+    .form-authorize {
+  		max-width: 380px;
+  		background-color: white;
+		padding: 15px 35px 45px;
+		margin: 0 auto;
+		border: 2px solid rgba(0,0,0,0.1);
+		border-radius: 8px;
+    }
+	button {
+		font-size: 20px;
+		background-color: #cc0000;
+		color: white;
+		padding: 14px 40px;
+		border-radius: 8px;
+		
+	}
+	img {
+    	width:200px; /* you can use % */
+    	height: auto;
+	}
+    </style>
   </head>
+  
+  
   <body>
     <div id="authorize-div" style="display: none">
-      <span>Authorize access to Drive API</span>
+    <div class="wrapper">
+    <form class = "form-authorize">
+    <img src = "logo.png">
+    <h2><b> PMO Toolkit</b></h2> <br>
+      <p>Please Authorize Access to Drive API</p>
       <!--Button for the user to click to initiate auth sequence -->
       <button id="authorize-button" onclick="handleAuthClick(event)">
-        Authorize
+        <b>Authorize</b>
       </button>
+      </form>
+    </div>
     </div>
     <pre id="output"></pre>
   </body>
